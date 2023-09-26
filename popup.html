@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 760px;
+            height: 280px;
+            font-size: 14px;
+        }
+
+        .inp {
+            margin-bottom: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/index.css">
+    <!--    <script src="js/jquery-1.8.3.js"></script>-->
+    <script src="js/vue3.min.js"></script>
+    <script src="js/index.min.js"></script>
+    <script src="js/jquery-1.8.3.js"></script>
+    <script src="js/popup.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-row>
+        <el-col :span="3">
+            <el-input v-model="endowmentInsurance" class="inp" placeholder="养老保险"></el-input>
+            <el-input v-model="medicalInsurance" class="inp" placeholder="医疗保险"></el-input>
+            <el-input v-model="unemploymentInsurance" class="inp" placeholder="失业保险"></el-input>
+            <el-input v-model="employmentInjuryInsurance" class="inp" placeholder="工伤保险"></el-input>
+            <el-input v-model="maternityInsurance" class="inp" placeholder="生育保险"></el-input>
+            <el-input v-model="housingProvidentFund" class="inp" placeholder="住房公积金"></el-input>
+            <el-button @click="add()">添加</el-button>
+        </el-col>
+        <el-col :span="3">
+            <el-input v-model="endowmentInsurance" class="inp" placeholder="养老保险"></el-input>
+            <el-input v-model="medicalInsurance" class="inp" placeholder="医疗保险"></el-input>
+            <el-input v-model="unemploymentInsurance" class="inp" placeholder="失业保险"></el-input>
+            <el-input v-model="employmentInjuryInsurance" class="inp" placeholder="工伤保险"></el-input>
+            <el-input v-model="maternityInsurance" class="inp" placeholder="生育保险"></el-input>
+            <el-input v-model="housingProvidentFund" class="inp" placeholder="住房公积金"></el-input>
+        </el-col>
+        <el-col :span="18" style="padding-left:7px">
+            <el-table :data="tableData" border style="width: 100%" size="small" highlight-current-row
+                      @current-change="handleCurrentChange">
+                <el-table-column prop="endowmentInsurance" label="养老保险" width="80"></el-table-column>
+                <el-table-column prop="medicalInsurance" label="医疗保险" width="80"></el-table-column>
+                <el-table-column prop="unemploymentInsurance" label="失业保险" width="80"></el-table-column>
+                <el-table-column prop="employmentInjuryInsurance" label="工伤保险" width="80"></el-table-column>
+                <el-table-column prop="maternityInsurance" label="生育保险" width="80"></el-table-column>
+                <el-table-column prop="housingProvidentFund" label="住房公积金" width="80"></el-table-column>
+                <el-table-column fixed="right" label="操作" width="100">
+                    <template #default="scope">
+                        <el-button link type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-col>
+    </el-row>
+
+</div>
+</body>
+</html>
