@@ -6,13 +6,17 @@
     <title>Document</title>
     <style>
         #app {
-            width: 760px;
-            height: 280px;
+            width: 750px;
+            height: 320px;
             font-size: 14px;
         }
 
         .inp {
             margin-bottom: 8px;
+        }
+
+        .el-drawer__body {
+            padding: 7px !important;
         }
     </style>
     <link rel="stylesheet" href="css/index.css">
@@ -24,43 +28,113 @@
 </head>
 <body>
 <div id="app">
-    <el-row>
-        <el-col :span="3">
-            <el-input v-model="endowmentInsurance" class="inp" placeholder="养老保险"></el-input>
-            <el-input v-model="medicalInsurance" class="inp" placeholder="医疗保险"></el-input>
-            <el-input v-model="unemploymentInsurance" class="inp" placeholder="失业保险"></el-input>
-            <el-input v-model="employmentInjuryInsurance" class="inp" placeholder="工伤保险"></el-input>
-            <el-input v-model="maternityInsurance" class="inp" placeholder="生育保险"></el-input>
-            <el-input v-model="housingProvidentFund" class="inp" placeholder="住房公积金"></el-input>
-            <el-button @click="add()">添加</el-button>
-        </el-col>
-        <el-col :span="3">
-            <el-input v-model="endowmentInsurance" class="inp" placeholder="养老保险"></el-input>
-            <el-input v-model="medicalInsurance" class="inp" placeholder="医疗保险"></el-input>
-            <el-input v-model="unemploymentInsurance" class="inp" placeholder="失业保险"></el-input>
-            <el-input v-model="employmentInjuryInsurance" class="inp" placeholder="工伤保险"></el-input>
-            <el-input v-model="maternityInsurance" class="inp" placeholder="生育保险"></el-input>
-            <el-input v-model="housingProvidentFund" class="inp" placeholder="住房公积金"></el-input>
-        </el-col>
-        <el-col :span="18" style="padding-left:7px">
-            <el-table :data="tableData" border style="width: 100%" size="small" highlight-current-row
-                      @current-change="handleCurrentChange">
-                <el-table-column prop="endowmentInsurance" label="养老保险" width="80"></el-table-column>
-                <el-table-column prop="medicalInsurance" label="医疗保险" width="80"></el-table-column>
-                <el-table-column prop="unemploymentInsurance" label="失业保险" width="80"></el-table-column>
-                <el-table-column prop="employmentInjuryInsurance" label="工伤保险" width="80"></el-table-column>
-                <el-table-column prop="maternityInsurance" label="生育保险" width="80"></el-table-column>
-                <el-table-column prop="housingProvidentFund" label="住房公积金" width="80"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="100">
-                    <template #default="scope">
-                        <el-button link type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-                        <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </el-col>
-    </el-row>
-
+    <el-tabs tab-position="left" style="height: 100%">
+        <el-tab-pane label="五">
+            <el-row>
+                <el-col>
+                    <el-button type="primary" class="inp" @click="openDraw()" plain>新增</el-button>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col>
+                    <el-table :data="tableData" border style="width: 100%" size="small" highlight-current-row show-summary
+                              @current-change="handleCurrentChange" :summary-method="getSummaries">
+                        <el-table-column fixed="left" prop="endowmentInsurance" label="时间" width="80">
+                            <template #default="scope">
+                                <el-text class="mx-1">{{scope.row.year}}/{{scope.row.month}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="endowmentInsurance" label="养老保险" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.endowmentInsurance}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.endowmentInsuranceCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="medicalInsurance" label="医疗保险" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.medicalInsurance}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.medicalInsuranceCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="unemploymentInsurance" label="失业保险" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.unemploymentInsurance}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.unemploymentInsuranceCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="employmentInjuryInsurance" label="工伤保险" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.employmentInjuryInsurance}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.employmentInjuryInsuranceCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="maternityInsurance" label="生育保险" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.maternityInsurance}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.maternityInsuranceCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="housingProvidentFund" label="住房公积金" width="100">
+                            <template #default="scope">
+                                <el-text class="mx-1" type="primary">{{scope.row.housingProvidentFund}}</el-text>
+                                /
+                                <el-text class="mx-1" type="danger">+{{scope.row.housingProvidentFundCompany}}</el-text>
+                            </template>
+                        </el-table-column>
+                        <el-table-column fixed="right" label="操作" width="100">
+                            <template #default="scope">
+                                <el-button link type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                                <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-col>
+            </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="六"></el-tab-pane>
+        <el-tab-pane label="七"></el-tab-pane>
+        <el-tab-pane label="八"></el-tab-pane>
+    </el-tabs>
+    <el-drawer v-model="drawer" direction="rtl" :with-header="false">
+        <el-row :gutter="7">
+            <el-col :span="12">
+                <el-select v-model="mainObj.year" class="m-2 inp" placeholder="年份">
+                    <el-option v-for="item in yearList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-input v-model="mainObj.endowmentInsurance" class="inp" placeholder="养老保险"></el-input>
+                <el-input v-model="mainObj.medicalInsurance" class="inp" placeholder="医疗保险"></el-input>
+                <el-input v-model="mainObj.unemploymentInsurance" class="inp" placeholder="失业保险"></el-input>
+                <el-input v-model="mainObj.employmentInjuryInsurance" class="inp" placeholder="工伤保险"></el-input>
+                <el-input v-model="mainObj.maternityInsurance" class="inp" placeholder="生育保险"></el-input>
+                <el-input v-model="mainObj.housingProvidentFund" class="inp" placeholder="住房公积金"></el-input>
+            </el-col>
+            <el-col :span="12">
+                <el-select v-model="mainObj.month" class="m-2 inp" placeholder="月份">
+                    <el-option v-for="item in monthList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-input v-model="mainObj.endowmentInsuranceCompany" class="inp" placeholder="养老保险"></el-input>
+                <el-input v-model="mainObj.medicalInsuranceCompany" class="inp" placeholder="医疗保险"></el-input>
+                <el-input v-model="mainObj.unemploymentInsuranceCompany" class="inp"
+                          placeholder="失业保险"></el-input>
+                <el-input v-model="mainObj.employmentInjuryInsuranceCompany" class="inp"
+                          placeholder="工伤保险"></el-input>
+                <el-input v-model="mainObj.maternityInsuranceCompany" class="inp" placeholder="生育保险"></el-input>
+                <el-input v-model="mainObj.housingProvidentFundCompany" class="inp"
+                          placeholder="住房公积金"></el-input>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-button @click="addOrUpdate()" type="primary">确定</el-button>
+            <el-button @click="closeDraw()">取消</el-button>
+        </el-row>
+    </el-drawer>
 </div>
 </body>
 </html>
